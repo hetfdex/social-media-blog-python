@@ -7,13 +7,13 @@ from blog.models import User
 
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
-    password = StringField("Password", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
 
 class RegistrationForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
-    password = StringField("Password", validators=[DataRequired(), EqualTo("password_confirm", message="Passwords must match")])
-    password_confirm = StringField("Confirm Password", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired(), EqualTo("password_confirm", message="Passwords must match")])
+    password_confirm = PasswordField("Confirm Password", validators=[DataRequired()])
     submit = SubmitField("Register")
 
     def check_email(self, field):

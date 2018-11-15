@@ -14,14 +14,14 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
 
-        if user.check_password(form.password.data) and user is not none:
+        if user.check_password(form.password.data) and user is not None:
             login_user(user)
 
             flash("Login Successful")
 
             next = request.args.get("next")
 
-            if next == none or not next[0] == "/":
+            if next == None or not next[0] == "/":
                 next = url_for("core.index")
 
             return redirect(next)
@@ -70,7 +70,7 @@ def account():
 
             flash("Update Successful")
 
-        return redirect(url_for("core.index"))
+        return redirect(url_for("users.account"))
 
     elif request.method == "GET":
         form.username.data = current_user.username
@@ -79,10 +79,12 @@ def account():
 
     return render_template("account.html", userpicture=userpicture, form=form)
 
-@user.route("/<username>")
+@users.route("/<username>_posts")
 def user_posts(username):
     page = request.args.get("page", 1, type=int)
 
     user = User.query.filter_by(username=username).first_or_404()
 
     posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date.desc()).paginate(page=page, per_page=5)
+
+    return render_template("user_posts.html", posts=posts, user=user)
