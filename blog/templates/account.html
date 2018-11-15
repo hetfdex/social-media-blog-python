@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+  <h1 class="display-4">{{current_user.username}}'s Account</h1><hr class="my-4">
+
+  <img src="url_for("static", filename="profile_pictures/" + current_user.userpicture)">
+
+  <form method="POST">
+      {{form.hidden_tag()}}
+
+      <div class="form-group">
+        {{form.username.label}} {{form.username(class_="form-control", placeholder="Enter username")}}
+        <p></p>
+        {{form.userpicture.label}} {{form.userpicture}}
+        <p></p>
+        {{form.submit(class_="btn btn-primary")}}
+      </div>
+  </form>
+{% endblock %}
