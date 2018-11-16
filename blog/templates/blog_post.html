@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+  <h1 class="display-4">{{post.title}}</h1><hr class="my-4">
+  <h2 class="display-4">Written by {{post.author.username}}</h2><hr class="my-4">
+  <h3>Published on: {{blog_post.date.strftime("%Y-%m-%d")}}</h3>
+
+  <p>{{post.body}}</p>
+
+  {% if post.autor == current_user %}
+    <div class="jumbotron">
+      <a href={{url_for("blog_posts.update, blog_post_id=post.id")}}>Update</a>
+      <p></p>
+      <button type="button" class="btn btn-danger" name="Delete" data-toggle="modal" data-target="#delete_modal">Delete</button>
+    </div>
+  {% endif %}
+
+  <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Post</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete this post?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+          <form action="{{url_for("blog_posts.delete_post", blog_post_id=post.id)}}" method="POST">
+            <input type="submit" class="btn btn-danger" name="" value="Delete">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
