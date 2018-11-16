@@ -7,19 +7,19 @@
 
   <img src="url_for("static", filename="profile_pictures/" + user.userpicture)">
 
-  {% for post in posts.items %}
-    <h2> <a href="{{url_for("posts.post, post_id=post.id")}}">{{post.title}}</a> </h2>
-    Written by: <a href="{{url_for("users.user_posts, username=post.author.username")}}">{{post.author.username}}</a>
-    <p class="text-muted">Posted on: {{post.date.strftime("%Y-%m-%d")}}</p>
+  {% for blog_post in blog_posts.items %}
+    <h2> <a href="{{url_for("blog_posts.blog_post, post_id=blog_post.id")}}">{{blog_post.title}}</a> </h2>
+    Written by: <a href="{{url_for("users.user_posts, username=blog_post.author.username")}}">{{blog_post.author.username}}</a>
+    <p class="text-muted">Posted on: {{blog_post.date.strftime("%Y-%m-%d")}}</p>
     <p></p>
-    <p>{{post.text}}</p>
+    <p>{{blog_post.body}}</p>
     <p></p>
   {% endfor %}
 
   <nav aria-label="Page Navigation">
     <ul class="pagination justify-content-center">
-      {% for i in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-        {% if posts.page == i %}
+      {% for i in blog_posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if blog_posts.page == i %}
           <li class="page-item-disabled"><a class="page-link" href="{{url_for("users.user_posts", username=user, page=i)}}">{{i}}</a></li>
         {% else %}
           <li class="page-item"><a class="page-link" href="{{url_for("users.user_posts", username=user, page=i)}}">{{i}}</a></li>

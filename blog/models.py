@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))
     userpicture = db.Column(db.String(64), nullable = False, default = "default_picture.png")
 
-    posts = db.relationship("BlogPost", backref = "author", lazy = True)
+    blog_posts = db.relationship("BlogPost", backref = "author", lazy = True)
 
     def __init__(self, email, password):
         self.email = email

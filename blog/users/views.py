@@ -63,7 +63,7 @@ def account():
 
         if form.userpicture.data:
             current_user.userpicture = add_profile_picture(current_user.username, form.userpicture.data)
-            
+
             update_profile = True
 
         if update_profile:
@@ -86,6 +86,6 @@ def user_posts(username):
 
     user = User.query.filter_by(username=username).first_or_404()
 
-    posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date.desc()).paginate(page=page, per_page=5)
+    blog_posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date.desc()).paginate(page=page, per_page=5)
 
-    return render_template("user_posts.html", posts=posts, user=user)
+    return render_template("user_posts.html", blog_posts=blog_posts, user=user)
