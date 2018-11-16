@@ -63,6 +63,7 @@ def account():
 
         if form.userpicture.data:
             current_user.userpicture = add_profile_picture(current_user.username, form.userpicture.data)
+            
             update_profile = True
 
         if update_profile:

@@ -11,7 +11,9 @@ def add_profile_picture(username, uploaded_picture):
 
     picture = Image.open(uploaded_picture)
 
-    picture.thumbnail(600, 600)
+    size = (200, 200)
+
+    picture.thumbnail(size)
     picture.save(path)
 
     return filename
