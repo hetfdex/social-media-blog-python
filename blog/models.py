@@ -3,10 +3,12 @@ from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+#Loads users matching id
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
+#User Model: Stores user information with a relationship to their blog posts
 class User(db.Model, UserMixin):
     __tablename__ = "users"
 
@@ -15,7 +17,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(64), unique = True, index = True)
     username = db.Column(db.String(64), unique = True, index = True)
     password_hash = db.Column(db.String(128))
-    userpicture = db.Column(db.String(64), nullable = False, default = "default_picture.png")
+    userpicture = db.Column(db.String(32), nullable = False, default = "default_picture.png")
 
     blog_posts = db.relationship("BlogPost", backref = "author", lazy = True)
 
@@ -31,17 +33,20 @@ class User(db.Model, UserMixin):
         self.username = username
 
     def __repr__(self):
-        return f"Username: {self.username} | Email: {self.email}"
+        return f"Email: {self.email}"
 
+#BlogPost Model: Stores blog posts information with a relationship to their authors
 class BlogPost(db.Model):
     users = db.relationship(User)
 
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable = False)
 
-    date = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     title = db.Column(db.String(128), nullable = False)
+
     body = db.Column(db.Text, nullable = False)
+
+    date = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
 
     def __init__(self, user_id, title, body):
         self.user_id = user_id

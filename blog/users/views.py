@@ -7,6 +7,7 @@ from blog.users.picture_handler import add_profile_picture
 
 users = Blueprint("users", __name__)
 
+#Login Page: Show and validate user login
 @users.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -28,6 +29,7 @@ def login():
 
     return render_template("login.html", form=form)
 
+#Registration Page: Show, validate and store user registration
 @users.route("/register", methods=["GET", "POST"])
 def register():
     form = RegistrationForm()
@@ -44,12 +46,14 @@ def register():
 
     return render_template("register.html", form=form)
 
+#Logout Page: Logs user out
 @users.route("/logout")
 def logout():
     logout_user()
 
     return redirect(url_for("core.index"))
 
+#Account Page: Shows user's account. Allows for updating of username and profile picture. Requires logged in user
 @users.route("/account", methods=["GET", "POST"])
 @login_required
 def account():
@@ -80,12 +84,13 @@ def account():
 
     return render_template("account.html", userpicture=userpicture, form=form)
 
+#User posts: Shows posts by user. Shows a maximum of 10 blog posts using pagination
 @users.route("/<username>_posts")
 def user_posts(username):
     page = request.args.get("page", 1, type=int)
 
     user = User.query.filter_by(username=username).first_or_404()
 
-    blog_posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date.desc()).paginate(page=page, per_page=5)
+    blog_posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date.desc()).paginate(page=page, per_page=10)
 
     return render_template("user_posts.html", blog_posts=blog_posts, user=user)

@@ -2,10 +2,9 @@ import os
 from flask import url_for, current_app
 from PIL import Image
 
+#Scales and saves uploaded picture matching the username
 def add_profile_picture(username, uploaded_picture):
-    extension = uploaded_picture.filename.split(".")[-1]
-
-    filename = str(username) + "." + extension
+    filename = str(username) + "." + uploaded_picture.filename.split(".")[-1]
 
     path = os.path.join(current_app.root_path, "static/profile_pictures", filename)
 
