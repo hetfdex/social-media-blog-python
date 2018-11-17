@@ -5,15 +5,16 @@
     <h1>Beyond - The Blog</h1>
   </div>
 
-  {% for post in blog_posts.items %}
+  {% for blog_post in blog_posts.items %}
     <div class="card" style="width: 18rem;">
       <div class="card-body">
-        <h2> <a href="{{url_for("blog_posts.blog_post, blog_post_id=post.id")}}"></a>{{post.title}}</h2>
-        <a href="{{url_for("users.user_posts", usernmae=post.autor.name)}}" class="btn btn-primary">Written by: {{post.author.username}}</a>
+        <h2> <a class="card-title" href="{{url_for("blog_posts.blog_post", blog_post_id=blog_post.id)}}"></a>{{blog_post.title}}</h2>
+        <a href="{{url_for("users.user_posts", username=blog_post.author.username)}}" class="btn btn-primary">Written by: {{blog_post.author.username}}</a>
         <p>Published on: {{blog_post.date.strftime("%Y-%m-%d")}}</p>
-        <a class="btn btn-primary" href="{{url_for("blog_posts.blog_post, blog_post_id=post.id")}}" class="btn btn-primary">Read Post</a>
+        <a class="btn btn-primary" href="{{url_for("blog_posts.blog_post", blog_post_id=blog_post.id)}}" class="btn btn-primary">Read Post</a>
       </div>
     </div>
+  {% endfor %}
 
     <nav aria-label="Page Navigation">
       <ul class="pagination justify-content-center">
@@ -26,5 +27,5 @@
         {% endfor %}
       </ul>
     </nav>
-  {% endfor %}
+
 {% endblock %}
