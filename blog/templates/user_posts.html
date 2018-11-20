@@ -3,28 +3,39 @@
 {% block content %}
 
 <div class="jumbotron">
-  <h1 class="display-4">{{user.username}}'s Blog Posts</h1><hr class="my-4">
+  <h1 class="display-4 text-center">{{current_user.username}}'s Blog Posts</h1>
+  <p></p>
 
-  <img align="center" src="{{url_for("static", filename="profile_pictures/" + current_user.userpicture)}}">
+  <img class="img-fluid mx-auto d-block" align="center" src="{{url_for("static", filename="profile_pictures/" + current_user.userpicture)}}">
+</div>
 
+<div class="row">
   {% for blog_post in blog_posts.items %}
-    <h2> <a href="{{url_for("blog_posts.blog_post", blog_post_id=blog_post.id)}}">{{blog_post.title}}</a> </h2>
-    Written by: <a href="{{url_for("users.user_posts", username=blog_post.author.username)}}">{{blog_post.author.username}}</a>
-    <p class="text-muted">Posted on: {{blog_post.date.strftime("%Y-%m-%d")}}</p>
-    <p></p>
-    <p>{{blog_post.body}}</p>
-    <p></p>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">{{blog_post.title}}</h5>
+        </div>
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Published on: {{blog_post.date.strftime("%Y-%m-%d")}}</h6>
+          <p></p>
+          <a class="btn btn-primary btn-sm" href="{{url_for("blog_posts.blog_post", blog_post_id=blog_post.id)}}" class="btn btn-primary">Read Post</a>
+        </div>
+      </div>
+    </div>
   {% endfor %}
+</div>
+<p></p>
 
-  <nav aria-label="Page Navigation">
-    <ul class="pagination justify-content-center">
-      {% for i in blog_posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-        {% if blog_posts.page == i %}
-          <li class="page-item-disabled"><a class="page-link" href="{{url_for("core.index", page=i)}}">{{i}}</a></li>
-        {% else %}
-          <li class="page-item"><a class="page-link" href="{{url_for("core.index", page=i)}}">{{i}}</a></li>
-        {% endif %}
-      {% endfor %}
-    </ul>
-  </nav>
+<nav aria-label="Page Navigation">
+  <ul class="pagination justify-content-center">
+    {% for i in blog_posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if blog_posts.page == i %}
+        <li class="page-item active"><a class="page-link" href="{{url_for("core.index", page=i)}}">{{i}}</a></li>
+      {% else %}
+        <li class="page-item disabled"><a class="page-link" href="{{url_for("core.index", page=i)}}">{{i}}</a></li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</nav>
 {% endblock %}
