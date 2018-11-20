@@ -13,14 +13,14 @@ def create_post():
     form = BlogPostForm()
 
     if form.validate_on_submit():
-        blog_post = BlogPost(title=form.title.data, body=form.body.data, user_id=current_user.user_id)
+        blog_post = BlogPost(user_id=current_user.id, title=form.title.data, body=form.body.data)
 
         db.session.add(blog_post)
         db.session.commit()
 
         flash("Post Successful")
 
-        return redirect(url_for("blog_posts.blog_post", blog_post_id=blog_post.id))
+        return redirect(url_for("core.index"))
 
     return render_template("create_post.html", form=form)
 

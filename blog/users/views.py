@@ -85,7 +85,7 @@ def account():
     return render_template("account.html", userpicture=userpicture, form=form)
 
 #User posts: Shows posts by user. Shows a maximum of 10 blog posts using pagination
-@users.route("/<username>_posts")
+@users.route("/<username>")
 def user_posts(username):
     page = request.args.get("page", 1, type=int)
 
