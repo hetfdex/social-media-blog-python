@@ -37,6 +37,8 @@ class User(db.Model, UserMixin):
 
 #BlogPost Model: Stores blog posts information with a relationship to their authors
 class BlogPost(db.Model):
+    __tablename__ = "blogposts"
+
     users = db.relationship(User)
 
     id = db.Column(db.Integer, primary_key = True)
