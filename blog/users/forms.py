@@ -5,13 +5,13 @@ from wtforms import StringField, PasswordField, SubmitField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo
 from blog.models import User
 
-#User login form. Requires email and password
+#User Login Form: Requires email and password
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
 
-#User registration form. Requires unique email and password matching
+#User Registration Form: Requires email and password confirmation. Checks if email is already in use
 class RegistrationForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired(), EqualTo("password_confirm", message="Password Doesn't Match!")])
@@ -22,7 +22,7 @@ class RegistrationForm(FlaskForm):
         if User.query.filter_by(email = field.data).first():
             raise ValidationError("Email already in use")
 
-#User profile update form. Allows uploading of profile picture. Requires unique username and jpg/png
+#Update Profile Form: Requires usermane. Picture optional. Picture must be jpg or png. Checks if username is already in use
 class UpdateProfileForm(FlaskForm):
     username = StringField("Change Username", validators=[DataRequired()])
     userpicture = FileField("Change Picture", validators=[FileAllowed(["jpg", "png"])])

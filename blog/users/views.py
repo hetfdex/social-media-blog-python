@@ -7,7 +7,7 @@ from blog.users.picture_handler import add_profile_picture
 
 users = Blueprint("users", __name__)
 
-#Login Page: Show and validate user login
+#Login Page: Validates user information from form
 @users.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -20,16 +20,11 @@ def login():
 
             flash("Login Successful")
 
-            next = request.args.get("next")
-
-            if next == None or not next[0] == "/":
-                next = url_for("core.index")
-
-            return redirect(next)
+            return redirect(url_for("core.index"))
 
     return render_template("login.html", form=form)
 
-#Registration Page: Show, validate and store user registration
+#Registration Page: Validate and stores user information from form
 @users.route("/register", methods=["GET", "POST"])
 def register():
     form = RegistrationForm()
@@ -46,19 +41,20 @@ def register():
 
     return render_template("register.html", form=form)
 
-#Logout Page: Logs user out
+#Logout Page: Logs current user out
 @users.route("/logout")
 def logout():
     logout_user()
 
     return redirect(url_for("core.index"))
 
-#Account Page: Shows user's account. Allows for updating of username and profile picture. Requires logged in user
+#Account Page: Shows user public information. Allows for updating of username and profile picture. Requires a logged in user
 @users.route("/account", methods=["GET", "POST"])
 @login_required
 def account():
-    form = UpdateProfileForm()
     update_profile = False
+
+    form = UpdateProfileForm()
 
     if form.validate_on_submit():
         if form.username.data:
@@ -84,7 +80,7 @@ def account():
 
     return render_template("account.html", userpicture=userpicture, form=form)
 
-#User posts: Shows posts by user. Shows a maximum of 10 blog posts using pagination
+#User Posts Page: Shows posts matching username (string). Maximum of 10 posts per page
 @users.route("/<username>")
 def user_posts(username):
     page = request.args.get("page", 1, type=int)

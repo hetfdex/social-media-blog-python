@@ -1,6 +1,6 @@
 # social-media-blog
 
-This project was created to help me learn how to build websites.
+This project was created to help me learn how to build websites. Includes API access.
 
 ## Stack
 
@@ -9,6 +9,7 @@ This project was created to help me learn how to build websites.
 * HTML
 * Bootstrap
 * SQLite
+* JWT
 
 Created in Atom
 
@@ -25,3 +26,4 @@ flask db upgrade
 flask run
 ```
 * Access @ http://localhost:5000
+* API requires registered user

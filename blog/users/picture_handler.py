@@ -2,7 +2,7 @@ import os
 from flask import url_for, current_app
 from PIL import Image
 
-#Scales and saves uploaded picture matching the username
+#Scales uploaded picture and saves it with the user's username
 def add_profile_picture(username, uploaded_picture):
     filename = str(username) + "." + uploaded_picture.filename.split(".")[-1]
 

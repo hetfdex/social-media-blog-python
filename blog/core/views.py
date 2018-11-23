@@ -3,7 +3,7 @@ from blog.models import BlogPost
 
 core = Blueprint("core", __name__)
 
-#Home Page: Shows a maximum of 5 blog posts using pagination
+#Home Page: Maximum of 10 posts per page
 @core.route("/")
 def index():
     page = request.args.get("page", 1, type=int)
@@ -12,7 +12,7 @@ def index():
 
     return render_template("index.html", blog_posts=blog_posts)
 
-#About Page: Just a sample
+#About Page
 @core.route("/about")
 def about():
     return render_template("about.html")
