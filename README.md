@@ -27,3 +27,5 @@ flask run
 ```
 * Access @ http://localhost:5000
 * API requires registered user
+
+* Live Demo @ https://social-media-blog-hetfdex.herokuapp.com/
